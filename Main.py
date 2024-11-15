@@ -10,10 +10,10 @@ from Visualise_Crystals import visualize_crystals
 
 
 
-#coordinates = read_particle_data(r"C:\Users\omare\PycharmProjects\Crytal Detector BA Trial\RandXY1.xlsx")
-#coordinates = read_particle_data(r"C:\Users\omare\PycharmProjects\Crytal Detector BA Trial\RandXY2 (triangles try).xlsx")
-#coordinates = read_particle_data(r"C:\Users\omare\PycharmProjects\Crytal Detector BA Trial\RandXY3 (many geometrics).xlsx")
-coordinates = read_particle_data(r"C:\Users\omare\PycharmProjects\Crytal Detector BA Trial\RandXY4 (a few shapes).xlsx")
+#coordinates = read_particle_data(r"RandXY1.xlsx")
+#coordinates = read_particle_data(r"RandXY2 (triangles try).xlsx")
+#coordinates = read_particle_data(r"RandXY3 (many geometrics).xlsx")
+coordinates = read_particle_data(r"RandXY4 (a few shapes).xlsx")
 
 
 
