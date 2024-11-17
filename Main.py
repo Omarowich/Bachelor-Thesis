@@ -12,20 +12,20 @@ from Visualise_Crystals import visualize_crystals
 
 #coordinates = read_particle_data(r"RandXY1.xlsx")
 #coordinates = read_particle_data(r"RandXY2 (triangles try).xlsx")
-#coordinates = read_particle_data(r"RandXY3 (many geometrics).xlsx")
-coordinates = read_particle_data(r"RandXY4 (a few shapes).xlsx")
+coordinates = read_particle_data(r"RandXY3 (many geometrics).xlsx")
+#coordinates = read_particle_data(r"RandXY4 (a few shapes).xlsx")
 
 
 
 
 # Find nearest neighbors
-neighbors_indices = find_nearest_neighbors(coordinates,2,50)
+neighbors_indices = find_nearest_neighbors(coordinates,2,10)
 
 # Calculate angles between neighbors
 angles = angles_between_neighbors(coordinates, neighbors_indices)
 
 # Classify crystal structure
-result_matrix, crystal_summary_matrix = classify_crystal_structure(coordinates, neighbors_indices, angles, 10,20)
+result_matrix, crystal_summary_matrix = classify_crystal_structure(coordinates, neighbors_indices, angles, 100,50)
 pprint(result_matrix)
 pprint(crystal_summary_matrix)
 
