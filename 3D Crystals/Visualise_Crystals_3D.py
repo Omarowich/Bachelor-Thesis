@@ -36,7 +36,7 @@ def visualize_crystals_3D(coordinates, result_matrix):
         existing_labels = [h.get_label() for h in ax.legend_.legendHandles] if ax.get_legend() else []
         ax.scatter(
             coordinate[0], coordinate[1], coordinate[2],
-            color=color, s=50,
+            color=color, s=50
            # label=crystal_type if crystal_type not in existing_labels else ""
         )
 
@@ -62,3 +62,7 @@ def visualize_crystals_3D(coordinates, result_matrix):
     # Enable interactive mode
     plt.ion()  # Interactive mode ON
     plt.show()
+    #plt.pause(100)
+
+
+
