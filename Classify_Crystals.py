@@ -1,6 +1,8 @@
 import numpy as np
 
-def classify_crystal_structure(coordinates, neighbors_indices, all_angles, angle_threshold=5.0, distance_threshold=20.0):
+
+def classify_crystal_structure(coordinates, neighbors_indices, all_angles, angle_threshold=5.0,
+                               distance_threshold=20.0):
     angle_clusters = []
     result_matrix = []
     crystal_summary_matrix = []
@@ -46,6 +48,42 @@ def classify_crystal_structure(coordinates, neighbors_indices, all_angles, angle
         else:
             return "Unknown"
 
+    def merge_clusters(angle_clusters):
+        """
+        Merge clusters that share particles, allowing particles to belong to multiple clusters.
+
+        Parameters:
+        angle_clusters (list of lists): The initial list of clusters.
+
+        Returns:
+        list of lists: The updated list of merged clusters, including overlaps.
+        """
+        merged = []  # Final list of merged clusters
+        processed = set()  # Tracks clusters we've already processed
+
+        for i, cluster in enumerate(angle_clusters):
+            # Skip clusters we've already processed
+            if i in processed:
+                continue
+
+            # Start a new merged cluster
+            current_merge = set(cluster)
+
+            # Check for overlaps with other clusters
+
+            for j, other in enumerate(angle_clusters):
+                if i != j and any(p in current_merge for p in other):
+                    # Overlap found: include `other` in the current merge
+                    current_merge.update(other)
+                    processed.add(j)  # Mark this cluster as processed
+
+            # Add the merged cluster
+            merged.append(list(current_merge))
+
+        return merged
+
+
+
     # Identify and add potential shapes to angle_clusters
     for i, angles in enumerate(all_angles):
         added_to_cluster = False
@@ -65,6 +103,11 @@ def classify_crystal_structure(coordinates, neighbors_indices, all_angles, angle
         # If not added to any cluster, create a new cluster
         if not added_to_cluster:
             angle_clusters.append([i])
+
+
+
+    # Merge clusters to ensure connected particles form single clusters
+    angle_clusters = merge_clusters(angle_clusters)
 
     for i in range(len(coordinates)):
         particle_cluster = next((cluster for cluster in angle_clusters if i in cluster), None)
@@ -107,11 +150,6 @@ def classify_crystal_structure(coordinates, neighbors_indices, all_angles, angle
     return result_matrix, crystal_summary_matrix
 
 
-
-
-
-
-
 """
     def filter_nearest_neighbors(particle, neighbors, max_distance=15.0):
        #Filter neighbors based on a stricter distance threshold to avoid lone particles.
@@ -149,19 +187,16 @@ def classify_crystal_structure(coordinates, neighbors_indices, all_angles, angle
         return filtered_shapes
 """
 
-
-
-
 """
   potential_shapes = identify_potential_shapes()
 
   for shape in potential_shapes:
       if is_closed_shape(shape):
           angle_clusters.append(shape)
-          
+
           ##
           #
-        
+
   """
 
 
