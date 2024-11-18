@@ -61,12 +61,4 @@ def visualize_crystals_3D(coordinates, result_matrix):
 
     # Enable interactive mode
     plt.ion()  # Interactive mode ON
-
     plt.show()
-
-    # Allow interaction without blocking
-    plt.draw()  # Draw the initial plot
-    plt.pause(0.1)  # Allow interaction
-
-    # Let the user interact with the plot (zoom/rotate)
-    input("Press Enter to exit the interactive plot...")
