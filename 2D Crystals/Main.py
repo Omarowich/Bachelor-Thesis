@@ -19,16 +19,15 @@ coordinates = read_particle_data(r"RandXY4 (a few shapes).xlsx")
 
 
 # Find nearest neighbors
-neighbors_indices = find_nearest_neighbors(coordinates,2,10)
+neighbors_indices = find_nearest_neighbors(coordinates,2,1500)
 
 # Calculate angles between neighbors
 angles = angles_between_neighbors(coordinates, neighbors_indices)
 
 # Classify crystal structure
-result_matrix, crystal_summary_matrix = classify_crystal_structure(coordinates, neighbors_indices, angles, 10,50)
+result_matrix, crystal_summary_matrix = classify_crystal_structure(coordinates, neighbors_indices, angles, 10,1500)
 pprint(result_matrix)
 pprint(crystal_summary_matrix)
 
 # Visualize the results
 visualize_crystals(coordinates, result_matrix)
-
