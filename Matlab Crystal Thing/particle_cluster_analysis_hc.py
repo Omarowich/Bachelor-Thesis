@@ -70,7 +70,6 @@ def plot_hierarchical_clustering(positions, threshold=3, bounds=(-55, 55), marke
 # Example usage
 # positions = np.load('positions.npy')
 # plot_hierarchical_clustering(positions)
-=======
 # Load positions (assuming positions is saved as an Nx2 numpy array in positions.npy)
 positions = np.load('positions.npy')
 
