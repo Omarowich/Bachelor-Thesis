@@ -13,6 +13,7 @@ def plot_hierarchical_clustering(positions, threshold=3, bounds=(-55, 55), marke
         bounds (tuple): Bounds for the plot (xmin, xmax, ymin, ymax).
         marker_size (float): Size of the marker used for the particles.
     """
+
     # Perform hierarchical clustering
     Z = linkage(positions, method='single')
 
