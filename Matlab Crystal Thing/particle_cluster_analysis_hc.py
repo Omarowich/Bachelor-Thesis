@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
 
-<<<<<<< HEAD
+
 
 def plot_hierarchical_clustering(positions, threshold=3, bounds=(-55, 55), marker_size=2):
     """
@@ -127,4 +127,4 @@ plt.title('Hierarchical Clustering Visualization')
 plt.xlabel('X Position')
 plt.ylabel('Y Position')
 plt.show()
->>>>>>> origin/main
+
