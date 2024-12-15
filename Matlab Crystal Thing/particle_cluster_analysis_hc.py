@@ -4,6 +4,7 @@ from scipy.cluster.hierarchy import linkage, fcluster
 
 
 
+
 def plot_hierarchical_clustering(positions, threshold=3, bounds=(-55, 55), marker_size=2):
     """
     Perform hierarchical clustering on given positions and visualize the results.
