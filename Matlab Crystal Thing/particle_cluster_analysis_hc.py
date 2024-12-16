@@ -2,9 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
 
-
-
-
 def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marker_size=2):
     """
     Perform hierarchical clustering on given positions and visualize the results.
@@ -44,9 +41,10 @@ def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marke
     cmap = plt.cm.jet
 
     # Plot the particles and color them according to group size
-    plt.figure(figsize=(8, 8))
-    plt.axis([bounds[0], bounds[1], bounds[0], bounds[1]])
-    plt.gca().set_aspect('equal', adjustable='box')
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.set_aspect('equal', adjustable='box')
+    ax.set_xlim(bounds[0], bounds[1])
+    ax.set_ylim(bounds[0], bounds[1])
 
     # Map the normalized sizes to colormap indices
     color_indices = (norm_group_sizes * 63).astype(int)
@@ -56,15 +54,14 @@ def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marke
         for j in group:
             rect = plt.Rectangle((positions[j, 0] - marker_size / 2, positions[j, 1] - marker_size / 2),
                                  marker_size, marker_size, color=color, fill=True)
-            plt.gca().add_patch(rect)
+            ax.add_patch(rect)
 
     # Add a colorbar
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=group_sizes.min(), vmax=group_sizes.max()))
     sm.set_array([])
-    plt.colorbar(sm, label='Group Size')
+    plt.colorbar(sm, ax=ax, label='Group Size')
 
-    plt.title('Hierarchical Clustering Visualization')
-    plt.xlabel('X Position')
-    plt.ylabel('Y Position')
+    ax.set_title('Hierarchical Clustering Visualization')
+    ax.set_xlabel('X Position')
+    ax.set_ylabel('Y Position')
     plt.show()
-
