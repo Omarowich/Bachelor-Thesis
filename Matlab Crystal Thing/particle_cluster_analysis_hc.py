@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
+from matplotlib.patches import Circle
 
-def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marker_size=2):
+def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marker_radius=1):
     """
     Perform hierarchical clustering on given positions and visualize the results.
 
@@ -10,7 +11,7 @@ def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marke
         positions (numpy.ndarray): Nx2 array of particle positions.
         threshold (float): Distance threshold for grouping clusters.
         bounds (tuple): Bounds for the plot (xmin, xmax, ymin, ymax).
-        marker_size (float): Size of the marker used for the particles.
+        marker_radius (float): Radius of the marker used for the particles.
     """
 
     # Perform hierarchical clustering
@@ -52,16 +53,15 @@ def particle_cluster_analysis_hc(positions, threshold=3, bounds=(-55, 55), marke
     for i, group in enumerate(groups):
         color = cmap(color_indices[i] / 63.0)
         for j in group:
-            rect = plt.Rectangle((positions[j, 0] - marker_size / 2, positions[j, 1] - marker_size / 2),
-                                 marker_size, marker_size, color=color, fill=True)
-            ax.add_patch(rect)
+            circle = Circle((positions[j, 0], positions[j, 1]), radius=marker_radius, color=color, fill=True)
+            ax.add_patch(circle)
 
     # Add a colorbar
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=group_sizes.min(), vmax=group_sizes.max()))
     sm.set_array([])
     plt.colorbar(sm, ax=ax, label='Group Size')
 
-    ax.set_title('Hierarchical Clustering Visualization')
+    ax.set_title('Particle Cluster Analysis by Hierarchical Clustering')
     ax.set_xlabel('X Position')
     ax.set_ylabel('Y Position')
     plt.show()

@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
 from matplotlib.patches import Circle
 
-
-def particle_radius_of_gyration_analysis_hc(positions, threshold=3.1, bounds=(-50, 50)):
+def particle_radius_of_gyration_analysis_hc(positions, threshold=3.1, bounds=(-50, 50), marker_radius=1):
     """
     Perform hierarchical clustering, calculate the radius of gyration for each group,
     and visualize the particles with colors corresponding to the radius of gyration.
@@ -13,6 +12,7 @@ def particle_radius_of_gyration_analysis_hc(positions, threshold=3.1, bounds=(-5
         positions (numpy.ndarray): Nx2 array of particle positions.
         threshold (float): Distance threshold for grouping clusters.
         bounds (tuple): Bounds for the plot (xmin, xmax, ymin, ymax).
+        marker_radius (float): Radius of the marker used for the particles.
     """
     # Perform hierarchical clustering
     Z = linkage(positions, method='single')
@@ -43,30 +43,31 @@ def particle_radius_of_gyration_analysis_hc(positions, threshold=3.1, bounds=(-5
     norm_group_radii = (group_radii - group_radii.min()) / (group_radii.max() - group_radii.min())
 
     # Create a colormap
-    cmap = redblue_colormap(n=64)
+    cmap = plt.cm.jet
     color_indices = (norm_group_radii * 63).astype(int)  # Map normalized radii to colormap indices
 
     # Plot particles
-    plt.figure(figsize=(8, 8))
-    plt.axis([bounds[0], bounds[1], bounds[0], bounds[1]])
-    plt.gca().set_aspect('equal', adjustable='box')
+    fig, ax = plt.subplots(figsize=(8, 8))  # Define ax here
+    ax.set_aspect('equal', adjustable='box')
+    ax.set_xlim(bounds[0], bounds[1])
+    ax.set_ylim(bounds[0], bounds[1])
 
     for i, group in enumerate(groups):
-        color = cmap(color_indices[i])
+        color = cmap(color_indices[i] / 63.0)
         for particle in group:
-            rect = Rectangle(
-                (positions[particle, 0] - 1, positions[particle, 1] - 1),
-                2, 2, color=color, fill=True
+            circle = Circle(
+                (positions[particle, 0], positions[particle, 1]),
+                radius=marker_radius, color=color, fill=True
             )
-            plt.gca().add_patch(rect)
+            ax.add_patch(circle)
 
     # Add colorbar
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=group_radii.min(), vmax=group_radii.max()))
     sm.set_array([])
-    plt.colorbar(sm, label='Normalized Radius of Gyration')
+    plt.colorbar(sm, ax=ax, label='Normalized Radius of Gyration')
 
     # Add plot title and labels
-    plt.title('Particle Clustering and Radius of Gyration')
-    plt.xlabel('X Position')
-    plt.ylabel('Y Position')
+    ax.set_title('Particle Clustering and Radius of Gyration')
+    ax.set_xlabel('X Position')
+    ax.set_ylabel('Y Position')
     plt.show()

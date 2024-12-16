@@ -2,9 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import pdist
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Circle
 
-def particle_angle_analysis_hc(positions, threshold=3.5, bounds=(-55, 55)):
+def particle_angle_analysis_hc(positions, threshold=3.5, bounds=(-55, 55), marker_radius=1):
     """
     Perform particle angle analysis on given positions and visualize the results.
 
@@ -12,6 +12,7 @@ def particle_angle_analysis_hc(positions, threshold=3.5, bounds=(-55, 55)):
         positions (numpy.ndarray): Nx2 array of particle positions.
         threshold (float): Distance threshold for grouping clusters.
         bounds (tuple): Bounds for the plot (xmin, xmax, ymin, ymax).
+        marker_radius (float): Radius of the marker used for the particles.
     """
     N = positions.shape[0]  # Number of particles
 
@@ -49,11 +50,10 @@ def particle_angle_analysis_hc(positions, threshold=3.5, bounds=(-55, 55)):
 
     # Draw particles
     for i in range(N):
-        rect = Rectangle((positions[i, 0] - 0.5, positions[i, 1] - 0.5), 1, 1,
-                         edgecolor='black', facecolor=colors[i], linewidth=1)
-        plt.gca().add_patch(rect)
+        circle = Circle((positions[i, 0], positions[i, 1]), radius=marker_radius, edgecolor='black', facecolor=colors[i], linewidth=1)
+        plt.gca().add_patch(circle)
 
-    plt.title('Particle Grouping and Coloring by Angles')
+    plt.title('Particle Angle Analysis (Hierarchical Clustering)')
     plt.xlabel('X Position')
     plt.ylabel('Y Position')
     plt.show()
