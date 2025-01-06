@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
 from matplotlib.patches import Circle
 
-def particle_angle_analysis_distance(positions, threshold=3, bounds=(-55, 55), marker_radius=1):
+def particle_angle_analysis_distance(positions, dbond, bounds=(-55, 55), marker_radius=1, mode='center', particle_diameter=2.21):
     """
     Perform particle angle analysis on given positions and visualize the results.
 
@@ -12,8 +12,14 @@ def particle_angle_analysis_distance(positions, threshold=3, bounds=(-55, 55), m
         threshold (float): Distance threshold for grouping clusters.
         bounds (tuple): Bounds for the plot (xmin, xmax, ymin, ymax).
         marker_radius (float): Radius of the marker used for the particles.
+        mode (str): 'center' for center-to-center distance, 'surface' for surface-to-surface distance.
+        particle_diameter (float): Diameter of the particles.
     """
     N = positions.shape[0]  # Number of particles
+
+    # Adjust threshold based on mode
+    if mode == 'surface':
+        dbond -= particle_diameter
 
     # Initialize animation
     plt.figure(figsize=(8, 8))
@@ -27,9 +33,9 @@ def particle_angle_analysis_distance(positions, threshold=3, bounds=(-55, 55), m
     groups = []
     for i in range(N):
         for j in range(i + 1, N):
-            if distances[i, j] <= threshold:
+            if distances[i, j] <= dbond:
                 for k in range(j + 1, N):
-                    if distances[i, k] <= threshold:
+                    if distances[i, k] <= dbond:
                         groups.append([i, j, k])
 
     # Initialize particle colors
@@ -42,11 +48,20 @@ def particle_angle_analysis_distance(positions, threshold=3, bounds=(-55, 55), m
         line1 = np.append(positions[j] - positions[i], 0)
         line2 = np.append(positions[k] - positions[i], 0)
         bond_angle = np.degrees(np.arctan2(np.linalg.norm(np.cross(line1, line2)), np.dot(line1, line2)))
-        # If the angle is between 140 and 180 degrees
-        if 140 <= bond_angle <= 180:
-            colors[i] = 'r'
+
+        # Color based on bond angle
+        if 70 < bond_angle < 140:
+            colors[i] = 'g'  # Open link configuration
+            colors[j] = 'g'
+            colors[k] = 'g'
+        elif 50 < bond_angle < 70:
+            colors[i] = 'r'  # Closed link configuration
             colors[j] = 'r'
             colors[k] = 'r'
+        elif 140 < angle < 180:
+            colors[i] = 'y'  # Stretched link configuration
+            colors[j] = 'y'
+            colors[k] = 'y'
 
     # Draw the particles
     for i in range(N):

@@ -14,9 +14,11 @@ from particle_radius_of_gyration_analysis_hc import particle_radius_of_gyration_
 
 
 
-threshold = 3  # Distance threshold for grouping
-particle_radius = 1  # Particle radius
+# Parameters
+prtclDiameter = 2.21
+dbond = 1.043 * prtclDiameter
 
+marker_radius = 1
 
 
 bounds = (-55, 55)  # Plot bounds
@@ -30,9 +32,14 @@ positions_v2 = loadmat(file_path_v2)['positions']
 
 
 # Perform analyses
-cluster_hc = particle_cluster_analysis_hc(positions, threshold, bounds, particle_radius)
-cluster_distance = particle_cluster_analysis_distance(positions, threshold, bounds, particle_radius)
-angle_distance = particle_angle_analysis_distance(positions, threshold, bounds, particle_radius)
-angle_v2 = particle_angle_analysis_v2(positions_v2, threshold, bounds, particle_radius)
-angle_hc = particle_angle_analysis_hc(positions, threshold, bounds, particle_radius)
-radius_of_gyration_hc = particle_radius_of_gyration_analysis_hc(positions, threshold, bounds, particle_radius)
+angle_distance = particle_angle_analysis_distance(positions, dbond, bounds,marker_radius,'center', prtclDiameter)
+angle_v2 = particle_angle_analysis_v2(positions_v2, dbond, bounds,marker_radius, 'center', prtclDiameter)
+
+
+
+
+# extra Analysis
+#cluster_hc = particle_cluster_analysis_hc(positions, dbond, bounds, prtclDiameter)
+#cluster_distance = particle_cluster_analysis_distance(positions, dbond, bounds, prtclDiameter)
+#angle_hc = particle_angle_analysis_hc(positions, dbond, bounds, prtclDiameter)
+#radius_of_gyration_hc = particle_radius_of_gyration_analysis_hc(positions, dbond, bounds, prtclDiameter)
