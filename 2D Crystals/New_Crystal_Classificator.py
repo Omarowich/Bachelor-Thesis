@@ -69,7 +69,7 @@ def crystal_classifier(coordinates, neighbors_indices, angles, angle_threshold=5
 
 
     # Initialize particle colors
-    colors = np.full(N, 'b', dtype=str)
+    colors = np.full(N, 'k', dtype=str)
 
     # Classify bonding angles and color particles accordingly
     for i, angle_list in enumerate(angles):
@@ -84,9 +84,9 @@ def crystal_classifier(coordinates, neighbors_indices, angles, angle_threshold=5
                 for neighbor in neighbors_indices[i]:
                     colors[neighbor] = 'r'
             elif 140 < bond_angle < 180:
-                colors[i] = 'y'  # Stretched link configuration
+                colors[i] = 'c'  # Stretched link configuration
                 for neighbor in neighbors_indices[i]:
-                    colors[neighbor] = 'y'
+                    colors[neighbor] = 'c'
 
 
     # Plot the particles
