@@ -94,7 +94,7 @@ def crystal_classifier(coordinates, neighbors_indices, angles, angle_threshold=5
         circle = Circle((coordinates[i, 0], coordinates[i, 1]), radius=marker_radius, edgecolor='black', facecolor=colors[i], linewidth=1)
         plt.gca().add_patch(circle)
 
-    plt.title('Crystal Structure Classification')
+    plt.title('Crystal bond angle Classification')
     plt.xlabel('X Position')
     plt.ylabel('Y Position')
     plt.show()

@@ -32,14 +32,14 @@ positions_v2 = loadmat(file_path_v2)['positions']
 
 
 # Perform analyses
-angle_distance = particle_angle_analysis_distance(positions, dbond, bounds,marker_radius,'center', prtclDiameter)
-angle_v2 = particle_angle_analysis_v2(positions_v2, dbond, bounds,marker_radius, 'center', prtclDiameter)
+#angle_distance = particle_angle_analysis_distance(positions, dbond, bounds,marker_radius,'center', prtclDiameter)
+#angle_v2 = particle_angle_analysis_v2(positions_v2, dbond, bounds,marker_radius, 'center', prtclDiameter)
 
 
 
 
 # extra Analysis
-#cluster_hc = particle_cluster_analysis_hc(positions, dbond, bounds, prtclDiameter)
-#cluster_distance = particle_cluster_analysis_distance(positions, dbond, bounds, prtclDiameter)
-#angle_hc = particle_angle_analysis_hc(positions, dbond, bounds, prtclDiameter)
-#radius_of_gyration_hc = particle_radius_of_gyration_analysis_hc(positions, dbond, bounds, prtclDiameter)
+cluster_hc = particle_cluster_analysis_hc(positions, dbond, bounds, marker_radius)
+cluster_distance = particle_cluster_analysis_distance(positions, dbond, bounds, marker_radius)
+angle_hc = particle_angle_analysis_hc(positions, dbond, bounds, marker_radius)
+radius_of_gyration_hc = particle_radius_of_gyration_analysis_hc(positions, dbond, bounds, marker_radius)
