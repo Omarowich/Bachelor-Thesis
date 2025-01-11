@@ -35,21 +35,23 @@ def dynamic_executioner(coordinates, output_gif_path='crystal_structure.gif', pl
     for timestep, (x, y) in enumerate(coordinates):
         coordinates = np.column_stack((x, y))
 
-        # Find nearest neighbors
-        neighbors_indices = find_nearest_neighbors(coordinates, 2, dbond)
-        # Calculate angles between neighbors
-        angles = angles_between_neighbors(coordinates, neighbors_indices)
 
-        # Classify crystal structure
-        result_matrix, crystal_summary_matrix = crystal_classifier(coordinates, neighbors_indices, angles, angle_threshold, dbond, bounds, marker_radius, calculation_mode)
-
-        # Print or process the results for each time step
-        print(f"Time step {timestep}:")
-        #pprint(result_matrix)
-        #pprint(crystal_summary_matrix)
-
-        # Visualize the results every nth time step
         if timestep % plot_interval == 0:
+
+            # Find nearest neighbors
+            neighbors_indices = find_nearest_neighbors(coordinates, 2, dbond)
+            # Calculate angles between neighbors
+            angles = angles_between_neighbors(coordinates, neighbors_indices)
+
+            # Print or process the results for each time step
+            print(f"Time step {timestep}:")
+            # pprint(result_matrix)
+            # pprint(crystal_summary_matrix)
+            # Classify crystal structure
+            result_matrix, crystal_summary_matrix = crystal_classifier(coordinates, neighbors_indices, angles, angle_threshold, dbond, bounds, marker_radius, calculation_mode)
+
+
+            # Visualize the results
             fig, ax = plt.subplots(figsize=(8, 8))
             ax.set_xlim(bounds)
             ax.set_ylim(bounds)
@@ -57,9 +59,13 @@ def dynamic_executioner(coordinates, output_gif_path='crystal_structure.gif', pl
             for i in range(len(coordinates)):
                 circle = Circle((coordinates[i, 0], coordinates[i, 1]), radius=marker_radius, edgecolor='black', facecolor=result_matrix[i]['color'], linewidth=1)
                 ax.add_patch(circle)
-            plt.title('Crystal Structure Classification')
+            plt.title('Dynamic Crystal Bond Angle Classification')
             plt.xlabel('X Position')
             plt.ylabel('Y Position')
+
+            # Add timestamp to the top left corner
+            ax.text(bounds[0], bounds[1], f'Time step: {timestep}', fontsize=12, verticalalignment='top',
+                    horizontalalignment='left')
 
             # Save the current frame
             fig.canvas.draw()
@@ -85,4 +91,4 @@ def dynamic_executioner(coordinates, output_gif_path='crystal_structure.gif', pl
                 summary_df.to_csv(summary_csv_path, mode='a', header=False, index=False)
 
     # Save frames as a GIF
-    imageio.mimsave(output_gif_path, frames, fps)
+    imageio.mimsave(output_gif_path, frames, fps=fps)
